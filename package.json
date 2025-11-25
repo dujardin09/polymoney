@@ -1,8 +1,16 @@
 {
+  "name": "polymoney",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run server.ts",
+    "start": "bun run server.ts"
+  },
   "dependencies": {
     "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@types/bun": "^1.3.3"
+    "@types/bun": "^1.3.3",
+    "@vercel/node": "^5.5.11"
   }
 }
