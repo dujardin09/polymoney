@@ -1,30 +1,47 @@
+import { Elysia } from "elysia";
 import { API_CONFIG } from "./src/config";
-import {
-  handleGetIndex,
-  handleGetMarkets,
-  handleStaticFile,
-} from "./src/routes/handlers";
+import { PolymarketService } from "./src/services/polymarket.service";
+import { ValidationError, validateMarketQuery } from "./src/utils/validation";
 
-const server = Bun.serve({
-  port: API_CONFIG.server.port,
-  async fetch(req) {
-    const url = new URL(req.url);
+const polymarketService = new PolymarketService();
 
-    if (url.pathname === "/") {
-      return handleGetIndex();
+const app = new Elysia()
+  .get("/", () => Bun.file("public/index.html"))
+  .get("/styles.css", () => Bun.file("public/styles.css"))
+  .get("/app.js", () => Bun.file("public/app.js"))
+  .get("/api/markets", async ({ query }) => {
+    try {
+      const params = new URLSearchParams(query as Record<string, string>);
+      const validated = validateMarketQuery(params);
+
+      const events = await polymarketService.fetchEventsClosingSoon(
+        validated.maxMinutes,
+      );
+      const markets = polymarketService.getMarketsInPriceRange(
+        events,
+        validated.minPrice,
+        validated.maxPrice,
+      );
+
+      return {
+        totalEvents: events.length,
+        markets: markets.map((m) => ({
+          question: m.market.question,
+          leadingOutcome: m.leadingOutcome,
+          leadingPrice: m.leadingPrice,
+          slug: m.market.slug,
+          endDate: m.market.endDate,
+        })),
+      };
+    } catch (error) {
+      if (error instanceof ValidationError) {
+        throw new Error(error.message);
+      }
+      throw error;
     }
+  })
+  .listen(API_CONFIG.server.port);
 
-    if (url.pathname === "/api/markets") {
-      return handleGetMarkets(req);
-    }
-
-    const staticResponse = handleStaticFile(url.pathname);
-    if (staticResponse) {
-      return staticResponse;
-    }
-
-    return new Response("Not Found", { status: 404 });
-  },
-});
-
-console.log(`🚀 Polymoney server running at http://localhost:${server.port}`);
+console.log(
+  `🚀 Polymoney server running at http://${app.server?.hostname}:${app.server?.port}`
+);
