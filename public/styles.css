@@ -1,0 +1,237 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0d1117;
+  color: #c9d1d9;
+  padding: 40px 20px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  color: #f0f6fc;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #8b949e;
+  font-size: 0.95rem;
+  margin-bottom: 32px;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #161b22;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 0.75rem;
+  color: #8b949e;
+  font-weight: 600;
+}
+
+input[type="number"] {
+  padding: 8px 12px;
+  border: 1px solid #30363d;
+  background: #0d1117;
+  color: #c9d1d9;
+  font-family: inherit;
+  font-size: 0.875rem;
+  width: 100px;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+input[type="number"]:focus {
+  outline: none;
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 3px rgba(88,166,255,0.1);
+}
+
+button {
+  padding: 8px 20px;
+  background: #238636;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.15s;
+  margin-top: 22px;
+}
+
+button:hover {
+  background: #2ea043;
+}
+
+button:active { transform: scale(0.98); }
+
+.auto-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding: 8px 12px;
+  background: #161b22;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid #30363d;
+}
+
+.auto-refresh:hover { background: #1c2128; }
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.stats {
+  margin: 24px 0;
+  font-size: 0.875rem;
+  color: #8b949e;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-value {
+  color: #f0f6fc;
+  font-weight: 600;
+}
+
+.markets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 16px;
+}
+
+.market {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.market:hover {
+  border-color: #58a6ff;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+}
+
+.market-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.market-question {
+  color: #f0f6fc;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.market-price {
+  font-size: 1.5rem;
+  color: #3fb950;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.market-meta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 0.8125rem;
+}
+
+.market-outcome {
+  color: #8b949e;
+  padding: 4px 8px;
+  background: #0d1117;
+  border-radius: 4px;
+  border: 1px solid #30363d;
+}
+
+.market-countdown {
+  color: #f85149;
+  font-weight: 500;
+}
+
+.market-countdown.safe {
+  color: #8b949e;
+}
+
+.market-link {
+  color: #58a6ff;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.market-link:hover {
+  text-decoration: underline;
+}
+
+.loading {
+  padding: 60px 0;
+  text-align: center;
+  color: #8b949e;
+  font-size: 1rem;
+}
+
+.empty {
+  text-align: center;
+  padding: 80px 20px;
+  color: #8b949e;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+}
+
+.empty-title {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #f0f6fc;
+  font-weight: 600;
+}
