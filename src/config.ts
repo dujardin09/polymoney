@@ -17,6 +17,6 @@ export const API_CONFIG = {
     },
   },
   server: {
-    port: 3000,
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
   },
 };
