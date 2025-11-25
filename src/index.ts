@@ -1,7 +1,6 @@
 import { Elysia } from "elysia";
-import { API_CONFIG } from "./src/config";
-import { PolymarketService } from "./src/services/polymarket.service";
-import { ValidationError, validateMarketQuery } from "./src/utils/validation";
+import { PolymarketService } from "./services/polymarket.service";
+import { ValidationError, validateMarketQuery } from "./utils/validation";
 
 const polymarketService = new PolymarketService();
 
@@ -39,9 +38,6 @@ const app = new Elysia()
       }
       throw error;
     }
-  })
-  .listen(API_CONFIG.server.port);
+  });
 
-console.log(
-  `🚀 Polymoney server running at http://${app.server?.hostname}:${app.server?.port}`
-);
+export default app;
