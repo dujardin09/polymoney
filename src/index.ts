@@ -5,9 +5,9 @@ import { ValidationError, validateMarketQuery } from "./utils/validation";
 const polymarketService = new PolymarketService();
 
 const app = new Elysia()
-  .get("/", () => Bun.file("../public/index.html"))
-  .get("/styles.css", () => Bun.file("../public/styles.css"))
-  .get("/app.js", () => Bun.file("../public/app.js"))
+  .get("/", () => Bun.file("public/index.html"))
+  .get("/styles.css", () => Bun.file("public/styles.css"))
+  .get("/app.js", () => Bun.file("public/app.js"))
   .get("/api/markets", async ({ query }) => {
     try {
       const params = new URLSearchParams(query as Record<string, string>);
