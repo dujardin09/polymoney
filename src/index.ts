@@ -1,13 +1,31 @@
 import { Elysia } from "elysia";
+import { join } from "path";
 import { PolymarketService } from "./services/polymarket.service";
 import { ValidationError, validateMarketQuery } from "./utils/validation";
 
 const polymarketService = new PolymarketService();
 
+const publicDir = join(import.meta.dir, "../public");
+
 const app = new Elysia()
-  .get("/", () => Bun.file("public/index.html"))
-  .get("/styles.css", () => Bun.file("public/styles.css"))
-  .get("/app.js", () => Bun.file("public/app.js"))
+  .get("/", async () => {
+    const file = Bun.file(join(publicDir, "index.html"));
+    return new Response(await file.text(), {
+      headers: { "Content-Type": "text/html" },
+    });
+  })
+  .get("/styles.css", async () => {
+    const file = Bun.file(join(publicDir, "styles.css"));
+    return new Response(await file.text(), {
+      headers: { "Content-Type": "text/css" },
+    });
+  })
+  .get("/app.js", async () => {
+    const file = Bun.file(join(publicDir, "app.js"));
+    return new Response(await file.text(), {
+      headers: { "Content-Type": "application/javascript" },
+    });
+  })
   .get("/api/markets", async ({ query }) => {
     try {
       const params = new URLSearchParams(query as Record<string, string>);
