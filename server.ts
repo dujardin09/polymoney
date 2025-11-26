@@ -2,6 +2,8 @@ import { API_CONFIG } from "./src/config";
 import {
   handleGetIndex,
   handleGetMarkets,
+  handleGetRecent,
+  handleGetRecentMarkets,
   handleStaticFile,
 } from "./src/routes/handlers";
 
@@ -14,8 +16,16 @@ const server = Bun.serve({
       return handleGetIndex();
     }
 
+    if (url.pathname === "/recent") {
+      return handleGetRecent();
+    }
+
     if (url.pathname === "/api/markets") {
       return handleGetMarkets(req);
+    }
+
+    if (url.pathname === "/api/recent-markets") {
+      return handleGetRecentMarkets(req);
     }
 
     const staticResponse = handleStaticFile(url.pathname);

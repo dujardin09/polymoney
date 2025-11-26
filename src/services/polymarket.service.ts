@@ -52,6 +52,32 @@ export class PolymarketService {
     return results.sort((a, b) => b.leadingPrice - a.leadingPrice);
   }
 
+  async fetchRecentlyCreatedMarkets(maxMinutes: number): Promise<Event[]> {
+    const now = new Date();
+    const timeAgo = new Date(now.getTime() - maxMinutes * 60 * 1000);
+
+    const startDateMin = timeAgo.toISOString();
+    const startDateMax = now.toISOString();
+
+    const url = new URL(
+      `${API_CONFIG.polymarket.baseUrl}${API_CONFIG.polymarket.endpoints.events}`,
+    );
+    url.searchParams.append("start_date_min", startDateMin);
+    url.searchParams.append("start_date_max", startDateMax);
+    url.searchParams.append(
+      "limit",
+      API_CONFIG.polymarket.limits.maxEvents.toString(),
+    );
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Polymarket API error: ${response.status}`);
+    }
+
+    return await response.json();
+  }
+
   private getLeadingOutcome(market: Market): MarketWithLeading | null {
     if (!market.outcomes || !market.outcomePrices) return null;
 

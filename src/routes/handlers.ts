@@ -35,9 +35,45 @@ export async function handleGetMarkets(req: Request): Promise<Response> {
   }
 }
 
+export async function handleGetRecentMarkets(req: Request): Promise<Response> {
+  try {
+    const url = new URL(req.url);
+    const maxMinutes = parseInt(url.searchParams.get("maxMinutes") || "60");
+
+    const events =
+      await polymarketService.fetchRecentlyCreatedMarkets(maxMinutes);
+
+    return Response.json({
+      totalEvents: events.length,
+      events: events.map((event) => ({
+        title: event.title,
+        slug: event.slug,
+        startDate: event.startDate,
+        endDate: event.endDate,
+        markets: event.markets.map((market) => ({
+          question: market.question,
+          slug: market.slug,
+          endDate: market.endDate,
+          outcomes: market.outcomes,
+          outcomePrices: market.outcomePrices,
+        })),
+      })),
+    });
+  } catch (error) {
+    return Response.json({ error: (error as Error).message }, { status: 500 });
+  }
+}
+
 export async function handleGetIndex(): Promise<Response> {
   const indexHtml = await Bun.file("public/index.html").text();
   return new Response(indexHtml, {
+    headers: { "Content-Type": "text/html" },
+  });
+}
+
+export async function handleGetRecent(): Promise<Response> {
+  const recentHtml = await Bun.file("public/recent.html").text();
+  return new Response(recentHtml, {
     headers: { "Content-Type": "text/html" },
   });
 }
